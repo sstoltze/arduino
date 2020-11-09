@@ -8,6 +8,20 @@ This is a repository for playing around with an arduino, and in particular for t
 
 I've been following [[https://dev.to/creativcoder/how-to-run-rust-on-arduino-uno-40c0]] to get started.
 * Notes
+** Getting started
+The error message
+#+begin_example
+error: failed to read `~/.local/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/std/Cargo.toml`
+
+Caused by:
+  No such file or directory (os error 2)
+#+end_example
+can be fixed by running
+#+begin_src shell
+rustup component add rust-src
+#+end_src
+I spent quite a while on this since I thought I had =rust-src= already, but it was apparently out of date.
+
 ** /dev/tty
 To find the =/dev/tty*= id of the Arduino, run
 #+begin_src shell
