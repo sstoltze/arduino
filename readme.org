@@ -1,0 +1,22 @@
+#+AUTHOR: Simon Stoltze
+#+EMAIL: Simon.Stoltze@ufst.dk
+#+DATE: 2020-11-09
+#+OPTIONS: toc:nil title:nil author:nil email:nil date:nil creator:nil
+* Arduino
+
+This is a repository for playing around with an arduino, and in particular for trying out embedded rust development.
+
+I've been following [[https://dev.to/creativcoder/how-to-run-rust-on-arduino-uno-40c0]] to get started.
+* Notes
+** /dev/tty
+To find the =/dev/tty*= id of the Arduino, run
+#+begin_src shell
+dmesg | grep tty
+#+end_src
+before and after plugging it in to see which entry is activated.
+
+** Flashing
+To flash the compiled program (built under =/target/avr-atmega328p/debug/=), run
+#+begin_src shell
+sudo avrdude -c arduino -v -p atmega328p -P /dev/ttyACM1 -D -U flash:w:target/avr-atmega328p/debug/rust-arduino-blink.elf:e
+#+end_src
