@@ -23,7 +23,9 @@ impl Morse {
     }
 }
 
-pub fn char_to_morse(c: char) -> [Morse; 6] {
+pub type MorseSequence = [Morse; 6];
+
+pub fn char_to_morse(c: char) -> MorseSequence {
     use Morse::*;
     match c {
         'a' => [Short, Long, Null, Null, Null, LetterBreak],
@@ -67,7 +69,7 @@ pub fn char_to_morse(c: char) -> [Morse; 6] {
     }
 }
 
-pub fn morse_timing(m: &Morse) -> u16 {
+fn morse_timing(m: &Morse) -> u16 {
     use Morse::*;
     match m {
         Null => 0,

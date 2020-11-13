@@ -13,14 +13,11 @@ mod morse;
 
 const MORSE_TIME_SCALE: u16 = 300;
 
-fn stutter_blink(led: &mut PB5<Output>, times: usize) {
-    (0..times).map(|i| i * 5).for_each(|i| {
-        led.toggle().void_unwrap();
-        arduino_uno::delay_ms(i as u16);
-    })
+fn morse_delay(time: u16) {
+    arduino_uno::delay_ms(time * MORSE_TIME_SCALE);
 }
 
-fn morse_sequence(led: &mut PB5<Output>, seq: [morse::Morse; 6]) {
+fn morse_sequence(led: &mut PB5<Output>, seq: morse::MorseSequence) {
     seq.iter().for_each(|m| morse_toggle(led, m));
 }
 
@@ -28,11 +25,11 @@ fn morse_toggle(led: &mut PB5<Output>, m: &morse::Morse) {
     if !m.pause() {
         led.toggle().void_unwrap();
     }
-    arduino_uno::delay_ms((m.timing() * MORSE_TIME_SCALE) as u16);
+    morse_delay(m.timing());
     if !m.pause() {
         led.toggle().void_unwrap();
     }
-    arduino_uno::delay_ms(MORSE_TIME_SCALE);
+    morse_delay(1);
 }
 
 fn morse_blink(led: &mut PB5<Output>, sentence: &str) {
