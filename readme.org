@@ -22,15 +22,24 @@ rustup component add rust-src
 #+end_src
 I spent quite a while on this since I thought I had =rust-src= already, but it was apparently out of date.
 
+<2021-03-13 Sat> - A regression requires =nightly-2021-01-07=. Use
+#+begin_src shell
+rustup override set nightly-2021-01-07
+rustup component add rust-src
+#+end_src
+
 ** /dev/tty
 To find the =/dev/tty*= id of the Arduino, run
 #+begin_src shell
 dmesg | grep tty
 #+end_src
-before and after plugging it in to see which entry is activated.
+before and after plugging it in to see which entry is activated. It should say something like
+#+begin_quote
+[68307.027695] cdc_acm 1-6:1.0: ttyACM0: USB ACM device
+#+end_quote
 
 ** Flashing
 To flash the compiled program (built under =/target/avr-atmega328p/debug/=), run
 #+begin_src shell
-sudo avrdude -c arduino -v -p atmega328p -P /dev/ttyACM1 -D -U flash:w:target/avr-atmega328p/debug/rust-arduino-blink.elf:e
+sudo avrdude -c arduino -v -p atmega328p -P /dev/ttyACM0 -D -U flash:w:target/avr-atmega328p/debug/rust-arduino-blink.elf:e
 #+end_src
